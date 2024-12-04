@@ -4,40 +4,26 @@
 
 import random
 import requests
-import json  # Import the json module for prettifying JSON
+import json
 
 class WordleGame:
     def __init__(self):
         # API base URL for interacting with the Wordle-like game
-        self.base_url = "https://wordle.votee.dev:8000/random"
-        self.word_list = ["sogzd", "hello", "world"]  # Example word list
+        self.base_url = "https://wordle.votee.dev:8000/random"  # Endpoint for random guesses
+        self.word_list = ["sogzd", "hello", "world", "apple", "grape", "peach", "lemon"]  # Example list of words
 
     def guess_word(self, guess: str, size: int = 5):
-        """Simulate a guess against the daily puzzle."""
+        """Simulate a guess against the random word."""
         url = f"{self.base_url}?guess={guess}&size={size}"
-        response = requests.get(url)
+        response = requests.get(url)  # Send GET request to the API
         
-        # Check if the response is successful (status code 200)
         if response.status_code == 200:
-            # Pretty-print the JSON response using json.dumps with indent
-            return json.dumps(response.json(), indent=4)  # Prettify the JSON output
+            return response.json()  # Return the JSON response from the API
         else:
             return {"error": "Unable to make a guess", "status_code": response.status_code}
 
     def guess_word_random(self, seed: int = None):
         """Generate a random guess from the word list and check it."""
         random.seed(seed)  # Set the seed for reproducibility (optional)
-        random_word = random.choice(self.word_list)  # Choose a random word
-        return self.guess_word(random_word)  # Check the random guess
-
-# Example usage
-if __name__ == "__main__":
-    game = WordleGame()
-    result = game.guess_word_random(seed=42)  # Pass a seed for reproducibility
-    print(result)  # Print the pretty-printed result
-
-    def guess_word_random(self, guess: str, seed: int = None):
-        """Make a random guess against a randomly selected word from word_list."""
-        random.seed(seed)  # Optional: Set the seed for reproducibility of the random guess
-        random_word = random.choice(self.word_list)  # Pick a random word from the list
-        return self.guess_word(random_word)  # Call guess_word with the random word
+        random_word = random.choice(self.word_list)  # Select a random word from the list
+        return self.guess_word(random_word)  # Check the random guess against the API

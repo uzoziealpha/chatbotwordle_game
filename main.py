@@ -1,18 +1,9 @@
-from wordle_game import WordleGame
-
-def main():
-    game = WordleGame()
-    
-    # Simulate a random guess (this could be more dynamic based on the game flow)
-    guess = "hello"  # Example guess
-    print(f"Generated word: {guess}")
-    
-    # Make a guess against the random word
-    response = game.guess_word(guess)
-    print("API Response:", response)
+import json
+from wordle_game import WordleGame  # Import the WordleGame class from wordle_game.py
 
 if __name__ == "__main__":
-    main()
+    game = WordleGame()  # Create an instance of the WordleGame class
     
-
-    
+    print("Testing random guess:")
+    result = game.guess_word_random()  # Make a random guess from the word list
+    print(json.dumps(result, indent=4))  # Pretty print the API response with indentation for better readability
